@@ -1,0 +1,299 @@
+<div class="dashboard-page">
+    <h1 class="page-title">Dashboard</h1>
+    
+    <!-- Estatísticas principais -->
+    <div class="stats-row">
+        <div class="stats-card">
+            <h2>Movimentação de passageiros</h2>
+            <div class="stats-value">7.852.000</div>
+            <div class="stats-trend positive">
+                <i class="fas fa-arrow-up"></i> 2.1% último mês
+            </div>
+            <div class="stats-period">Dados de 1-30 Mar, 2025</div>
+            
+            <div class="chart-container">
+                <canvas id="passageirosChart"></canvas>
+            </div>
+            
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color blue"></span>
+                    <span>Últimos 6 Dias</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color gray"></span>
+                    <span>Semana Passada</span>
+                </div>
+            </div>
+            
+            <a href="#" class="view-report">Ver Relatório</a>
+        </div>
+        
+        <div class="stats-card">
+            <h2>Horários de Voos</h2>
+            <div class="stats-period">De 1-6 Março, 2025</div>
+            
+            <div class="chart-container">
+                <canvas id="horariosChart"></canvas>
+            </div>
+            
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color blue"></span>
+                    <span>Tarde (40%)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color purple"></span>
+                    <span>Noite (32%)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color light-blue"></span>
+                    <span>Manhã (28%)</span>
+                </div>
+            </div>
+            
+            <a href="#" class="view-report">Ver Relatório</a>
+        </div>
+    </div>
+    
+    <!-- Segunda linha de estatísticas -->
+    <div class="stats-row">
+        <div class="stats-card">
+            <h2>Transporte de bagagemns</h2>
+            <div class="stats-period">De 1-6 Março, 2025</div>
+            
+            <div class="chart-container">
+                <canvas id="bagagensChart"></canvas>
+            </div>
+            
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color blue"></span>
+                    <span>Tarde (40%)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color purple"></span>
+                    <span>Noite (32%)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color light-blue"></span>
+                    <span>Manhã (28%)</span>
+                </div>
+            </div>
+            
+            <a href="#" class="view-report">Ver Relatório</a>
+        </div>
+        
+        <div class="stats-card">
+            <h2>Gestão de Voos</h2>
+            <div class="stats-subtitle">Companhias, destinos e horários.</div>
+            
+            <div class="voos-recentes">
+                {{#each voosRecentes}}
+                <div class="voo-item">
+                    <div class="companhia-logo">
+                        {{#if companhia_logo}}
+                            <img src="{{companhia_logo}}" alt="{{companhia_nome}}">
+                        {{else}}
+                            <div class="logo-placeholder">{{companhia_codigo}}</div>
+                        {{/if}}
+                    </div>
+                    
+                    <div class="voo-rota">
+                        <div class="voo-origem">{{origem_codigo}}</div>
+                        <div class="voo-seta">→</div>
+                        <div class="voo-destino">{{destino_codigo}}</div>
+                    </div>
+                    
+                    <div class="voo-tempo">
+                        <div class="tempo-label">Partida - Chegada</div>
+                        <div class="tempo-valor">{{formatTime data_hora_partida}} - {{formatTime data_hora_chegada}}</div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        
+        <div class="stats-card">
+            <h2>Bagagem Extraviada</h2>
+            <div class="stats-value">2.568</div>
+            <div class="stats-trend negative">
+                <i class="fas fa-arrow-down"></i> 2.1% último mês
+            </div>
+            <div class="stats-period">Dados de 1-30 Mar, 2025</div>
+            
+            <div class="chart-container">
+                <canvas id="extraviadaChart"></canvas>
+            </div>
+            
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <span class="legend-color blue"></span>
+                    <span>Últimos 6 dias</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color gray"></span>
+                    <span>Última semana</span>
+                </div>
+            </div>
+            
+            <a href="#" class="view-report">Ver Relatório</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Gráfico de movimentação de passageiros
+        const passageirosCtx = document.getElementById('passageirosChart').getContext('2d');
+        new Chart(passageirosCtx, {
+            type: 'bar',
+            data: {
+                labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
+                datasets: [
+                    {
+                        label: 'Últimos 6 Dias',
+                        data: [280, 250, 270, 240, 290, 310, 280, 250, 270, 240, 290, 310],
+                        backgroundColor: '#4b6fdc',
+                        borderRadius: 4,
+                        barThickness: 12
+                    },
+                    {
+                        label: 'Semana Passada',
+                        data: [260, 270, 250, 230, 280, 300, 260, 270, 250, 230, 280, 300],
+                        backgroundColor: '#e6e6e6',
+                        borderRadius: 4,
+                        barThickness: 12
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        display: false
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Gráfico de horários de voos
+        const horariosCtx = document.getElementById('horariosChart').getContext('2d');
+        new Chart(horariosCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tarde', 'Noite', 'Manhã'],
+                datasets: [{
+                    data: [40, 32, 28],
+                    backgroundColor: ['#4b6fdc', '#9747ff', '#c7d2fe'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Gráfico de bagagens
+        const bagagensCtx = document.getElementById('bagagensChart').getContext('2d');
+        new Chart(bagagensCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Tarde', 'Noite', 'Manhã'],
+                datasets: [{
+                    data: [40, 32, 28],
+                    backgroundColor: ['#4b6fdc', '#9747ff', '#c7d2fe'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Gráfico de bagagem extraviada
+        const extraviadaCtx = document.getElementById('extraviadaChart').getContext('2d');
+        new Chart(extraviadaCtx, {
+            type: 'line',
+            data: {
+                labels: ['01', '02', '03', '04', '05', '06'],
+                datasets: [
+                    {
+                        label: 'Últimos 6 dias',
+                        data: [120, 90, 110, 130, 120, 150],
+                        borderColor: '#4b6fdc',
+                        backgroundColor: 'rgba(75, 111, 220, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Última semana',
+                        data: [100, 110, 90, 120, 100, 130],
+                        borderColor: '#e6e6e6',
+                        backgroundColor: 'rgba(230, 230, 230, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        display: false
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,148 @@
+<div class="form-page">
+    <div class="page-header">
+        <h1 class="page-title">{{#if voo.idVoo}}Editar Voo{{else}}Novo Voo{{/if}}</h1>
+        <a href="/voos" class="btn-voltar">
+            <i class="fas fa-arrow-left"></i>
+            Voltar para Listagem
+        </a>
+    </div>
+    
+    <div class="form-container">
+        <form action="{{#if voo.idVoo}}/voos/{{voo.idVoo}}{{else}}/voos{{/if}}" method="POST" class="voo-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="numero">Número do Voo</label>
+                    <input type="text" id="numero" name="numero" value="{{voo.numero}}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="idCompanhiaAerea">Companhia Aérea</label>
+                    <select id="idCompanhiaAerea" name="idCompanhiaAerea" required>
+                        <option value="">Selecione uma companhia</option>
+                        <option value="1" {{#if (eq voo.idCompanhiaAerea 1)}}selected{{/if}}>LATAM</option>
+                        <option value="2" {{#if (eq voo.idCompanhiaAerea 2)}}selected{{/if}}>GOL</option>
+                        <option value="3" {{#if (eq voo.idCompanhiaAerea 3)}}selected{{/if}}>AZUL</option>
+                        <option value="4" {{#if (eq voo.idCompanhiaAerea 4)}}selected{{/if}}>TAP AIR PORTUGAL</option>
+                        <option value="5" {{#if (eq voo.idCompanhiaAerea 5)}}selected{{/if}}>AIR FRANCE</option>
+                        <option value="6" {{#if (eq voo.idCompanhiaAerea 6)}}selected{{/if}}>AIR EUROPA</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="idAeroportoOrigem">Aeroporto de Origem</label>
+                    <select id="idAeroportoOrigem" name="idAeroportoOrigem" required>
+                        <option value="">Selecione o aeroporto</option>
+                        <option value="1" {{#if (eq voo.idAeroportoOrigem 1)}}selected{{/if}}>Recife (REC)</option>
+                        <option value="2" {{#if (eq voo.idAeroportoOrigem 2)}}selected{{/if}}>São Paulo - Guarulhos (GRU)</option>
+                        <option value="3" {{#if (eq voo.idAeroportoOrigem 3)}}selected{{/if}}>Rio de Janeiro - Santos Dumont (SDU)</option>
+                        <option value="4" {{#if (eq voo.idAeroportoOrigem 4)}}selected{{/if}}>Salvador (SSA)</option>
+                        <option value="5" {{#if (eq voo.idAeroportoOrigem 5)}}selected{{/if}}>Brasília (BSB)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="idAeroportoDestino">Aeroporto de Destino</label>
+                    <select id="idAeroportoDestino" name="idAeroportoDestino" required>
+                        <option value="">Selecione o aeroporto</option>
+                        <option value="1" {{#if (eq voo.idAeroportoDestino 1)}}selected{{/if}}>Recife (REC)</option>
+                        <option value="2" {{#if (eq voo.idAeroportoDestino 2)}}selected{{/if}}>São Paulo - Guarulhos (GRU)</option>
+                        <option value="3" {{#if (eq voo.idAeroportoDestino 3)}}selected{{/if}}>Rio de Janeiro - Santos Dumont (SDU)</option>
+                        <option value="4" {{#if (eq voo.idAeroportoDestino 4)}}selected{{/if}}>Salvador (SSA)</option>
+                        <option value="5" {{#if (eq voo.idAeroportoDestino 5)}}selected{{/if}}>Brasília (BSB)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="idAeronave">Aeronave</label>
+                    <select id="idAeronave" name="idAeronave" required>
+                        <option value="">Selecione uma aeronave</option>
+                        <option value="1" {{#if (eq voo.idAeronave 1)}}selected{{/if}}>Boeing 737</option>
+                        <option value="2" {{#if (eq voo.idAeronave 2)}}selected{{/if}}>Airbus A320</option>
+                        <option value="3" {{#if (eq voo.idAeronave 3)}}selected{{/if}}>Embraer E195</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="data_hora_partida">Data e Hora de Partida</label>
+                    <input type="datetime-local" id="data_hora_partida" name="data_hora_partida" value="{{voo.data_hora_partida}}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="data_hora_chegada">Data e Hora de Chegada</label>
+                    <input type="datetime-local" id="data_hora_chegada" name="data_hora_chegada" value="{{voo.data_hora_chegada}}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" name="status" required>
+                        <option value="Ativo" {{#if (eq voo.status "Ativo")}}selected{{/if}}>Ativo</option>
+                        <option value="Atraso" {{#if (eq voo.status "Atraso")}}selected{{/if}}>Atraso</option>
+                        <option value="Cancelado" {{#if (eq voo.status "Cancelado")}}selected{{/if}}>Cancelado</option>
+                        <option value="Concluído" {{#if (eq voo.status "Concluído")}}selected{{/if}}>Concluído</option>
+                        <option value="Em Solo" {{#if (eq voo.status "Em Solo")}}selected{{/if}}>Em Solo</option>
+                        <option value="Chegando" {{#if (eq voo.status "Chegando")}}selected{{/if}}>Chegando</option>
+                        <option value="Decolagem" {{#if (eq voo.status "Decolagem")}}selected{{/if}}>Decolagem</option>
+                        <option value="Pouso" {{#if (eq voo.status "Pouso")}}selected{{/if}}>Pouso</option>
+                        <option value="Aguardando" {{#if (eq voo.status "Aguardando")}}selected{{/if}}>Aguardando</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-salvar">
+                    <i class="fas fa-save"></i>
+                    {{#if voo.idVoo}}Atualizar Voo{{else}}Salvar Voo{{/if}}
+                </button>
+                
+                {{#if voo.idVoo}}
+                <button type="button" class="btn-excluir" onclick="confirmarExclusao({{voo.idVoo}})">
+                    <i class="fas fa-trash"></i>
+                    Excluir Voo
+                </button>
+                {{/if}}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de confirmação de exclusão -->
+<div id="modal-exclusao" class="modal">
+    <div class="modal-content">
+        <h2>Confirmar Exclusão</h2>
+        <p>Tem certeza que deseja excluir este voo? Esta ação não pode ser desfeita.</p>
+        <div class="modal-actions">
+            <button id="btn-cancelar" class="btn-cancelar">Cancelar</button>
+            <form id="form-excluir" action="" method="POST">
+                <button type="submit" class="btn-confirmar">Confirmar Exclusão</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmarExclusao(idVoo) {
+        const modal = document.getElementById("modal-exclusao");
+        const formExcluir = document.getElementById("form-excluir");
+        const btnCancelar = document.getElementById("btn-cancelar");
+        
+        // Configurar o formulário de exclusão
+        formExcluir.action = `/voos/${idVoo}/excluir`;
+        
+        // Exibir o modal
+        modal.style.display = "flex";
+        
+        // Configurar o botão de cancelar
+        btnCancelar.onclick = function() {
+            modal.style.display = "none";
+        };
+        
+        // Fechar o modal se clicar fora dele
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    }
+</script>
+
+

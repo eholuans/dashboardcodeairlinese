@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - CODE AIRLINE Admin</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="/images/logo.svg" alt="CODE AIRLINE">
+                <span>CODE AIRLINE</span>
+            </div>
+            
+            <div class="menu-label">MENU</div>
+            
+            <nav class="menu">
+                <a href="/" class="menu-item {{#if (eq activeMenu 'dashboard')}}active{{/if}}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/voos" class="menu-item {{#if (eq activeMenu 'voos')}}active{{/if}}">
+                    <i class="fas fa-plane"></i>
+                    <span>Gestão de Voos</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-suitcase"></i>
+                    <span>Check-in e Bagagens</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Relatórios e Estatísticas</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Administração</span>
+                </a>
+            </nav>
+            
+            <div class="menu-label">Outros</div>
+            
+            <nav class="menu">
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Configuração</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    <span>Accounts</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Ajuda</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="user-menu">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">1</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="content">
+                {{{body}}}
+            </div>
+        </main>
+    </div>
+    
+    <script src="/js/main.js"></script>
+</body>
+</html>

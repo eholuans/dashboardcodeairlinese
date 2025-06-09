@@ -1,0 +1,15 @@
+<div class="error-page">
+    <h1>{{message}}</h1>
+    <p>Ocorreu um erro ao processar sua solicitação.</p>
+    
+    {{#if error}}
+    <div class="error-details">
+        <pre>{{error.stack}}</pre>
+    </div>
+    {{/if}}
+    
+    <a href="/" class="btn-voltar">
+        <i class="fas fa-home"></i>
+        Voltar para o Dashboard
+    </a>
+</div>

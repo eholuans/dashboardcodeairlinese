@@ -1,0 +1,200 @@
+<div class="voos-page">
+    <div class="page-header">
+        <h1 class="page-title">Gestão de Voos</h1>
+        <p class="page-subtitle">Listagem completa de Voos, Horários e Status</p>
+    </div>
+    
+    <!-- Filtros e Estatísticas -->
+    <div class="voos-header">
+        <div class="voos-title">
+            <h2>Visão Geral dos Voos</h2>
+        </div>
+        
+        <div class="voos-filters">
+            <div class="filter-group">
+                <label>Partida:</label>
+                <div class="select-wrapper">
+                    <select id="filtro-origem">
+                        <option value="">Todos</option>
+                        <option value="REC">Recife</option>
+                        <option value="GRU">Guarulhos</option>
+                        <option value="SDU">Santos Dumont</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <label>Destino:</label>
+                <div class="select-wrapper">
+                    <select id="filtro-destino">
+                        <option value="">Todos</option>
+                        <option value="REC">Recife</option>
+                        <option value="GRU">Guarulhos</option>
+                        <option value="SDU">Santos Dumont</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tabela de Voos -->
+    <div class="voos-table-container">
+        <table class="voos-table">
+            <thead>
+                <tr>
+                    <th>Voo</th>
+                    <th>Companhia</th>
+                    <th>Origem → Destino</th>
+                    <th>Partida - Chegada</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each voos}}
+                <tr class="voo-row">
+                    <td class="voo-numero">{{#if numero}}{{numero}}{{else}}LA{{idVoo}}{{/if}}</td>
+                    <td class="voo-companhia">
+                        {{#if companhia_logo}}
+                            <img src="{{companhia_logo}}" alt="{{companhia_nome}}" class="companhia-logo">
+                        {{else}}
+                            <div class="logo-placeholder">{{companhia_codigo}}</div>
+                        {{/if}}
+                        <span>{{companhia_nome}}</span>
+                    </td>
+                    <td class="voo-rota">
+                        <span class="origem">{{origem_codigo}}</span>
+                        <span class="rota-seta">→</span>
+                        <span class="destino">{{destino_codigo}}</span>
+                    </td>
+                    <td class="voo-horario">
+                        {{formatTime data_hora_partida}} - {{formatTime data_hora_chegada}}
+                    </td>
+                    <td class="voo-status">
+                        <span class="status-indicator {{status}}"></span>
+                        {{status}}
+                    </td>
+                    <td class="voo-acoes">
+                        <a href="/voos/{{idVoo}}/editar" class="btn-editar">
+                            <i class="fas fa-edit"></i>
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Legenda e Estatísticas -->
+    <div class="voos-footer">
+        <div class="voos-legenda">
+            <h3>Legenda do Gráfico:</h3>
+            <div class="legenda-items">
+                <div class="legenda-item">
+                    <span class="status-dot ativo"></span>
+                    <span>Ativo</span>
+                </div>
+                <div class="legenda-item">
+                    <span class="status-dot atraso"></span>
+                    <span>Atraso</span>
+                </div>
+                <div class="legenda-item">
+                    <span class="status-dot cancelado"></span>
+                    <span>Cancelado</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="voos-stats">
+            <div class="stats-card">
+                <h3>Aeronaves em Movimento</h3>
+                <div class="stats-value">4.264</div>
+                <div class="chart-container">
+                    <canvas id="movimentoChart"></canvas>
+                </div>
+                <a href="#" class="view-report">Ver Relatório</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Botão de Adicionar Voo -->
+    <div class="add-voo-container">
+        <a href="/voos/novo" class="btn-add-voo">
+            <i class="fas fa-plus"></i>
+            Adicionar Novo Voo
+        </a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar filtros
+        const filtroOrigem = document.getElementById('filtro-origem');
+        const filtroDestino = document.getElementById('filtro-destino');
+        
+        // Aplicar filtros quando alterados
+        filtroOrigem.addEventListener('change', aplicarFiltros);
+        filtroDestino.addEventListener('change', aplicarFiltros);
+        
+        // Função para aplicar filtros
+        function aplicarFiltros() {
+            const origem = filtroOrigem.value;
+            const destino = filtroDestino.value;
+            
+            // Construir URL com filtros
+            let url = '/voos?';
+            if (origem) url += `origem=${origem}&`;
+            if (destino) url += `destino=${destino}&`;
+            
+            // Redirecionar para URL com filtros
+            window.location.href = url.slice(0, -1); // Remover último & ou ?
+        }
+        
+        // Gráfico de movimento
+        const movimentoCtx = document.getElementById('movimentoChart').getContext('2d');
+        new Chart(movimentoCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                datasets: [
+                    {
+                        label: 'Movimento',
+                        data: [3800, 3600, 4200, 4000, 3900, 4264],
+                        borderColor: '#4b6fdc',
+                        backgroundColor: 'rgba(75, 111, 220, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Previsão',
+                        data: [3700, 3500, 4100, 3900, 3800, 4100],
+                        borderColor: '#e6e6e6',
+                        backgroundColor: 'rgba(230, 230, 230, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        display: false
+                    },
+                    x: {
+                        display: false
+                    }
+                }
+            }
+        });
+    });
+</script>
