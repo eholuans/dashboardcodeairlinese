@@ -4,7 +4,6 @@
         <p class="page-subtitle">Listagem completa de Voos, Horários e Status</p>
     </div>
     
-    <!-- Filtros e Estatísticas -->
     <div class="voos-header">
         <div class="voos-title">
             <h2>Visão Geral dos Voos</h2>
@@ -39,7 +38,6 @@
         </div>
     </div>
     
-    <!-- Tabela de Voos -->
     <div class="voos-table-container">
         <table class="voos-table">
             <thead>
@@ -88,7 +86,6 @@
         </table>
     </div>
     
-    <!-- Legenda e Estatísticas -->
     <div class="voos-footer">
         <div class="voos-legenda">
             <h3>Legenda do Gráfico:</h3>
@@ -120,7 +117,6 @@
         </div>
     </div>
     
-    <!-- Botão de Adicionar Voo -->
     <div class="add-voo-container">
         <a href="/voos/novo" class="btn-add-voo">
             <i class="fas fa-plus"></i>
@@ -131,29 +127,23 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar filtros
         const filtroOrigem = document.getElementById('filtro-origem');
         const filtroDestino = document.getElementById('filtro-destino');
         
-        // Aplicar filtros quando alterados
         filtroOrigem.addEventListener('change', aplicarFiltros);
         filtroDestino.addEventListener('change', aplicarFiltros);
         
-        // Função para aplicar filtros
         function aplicarFiltros() {
             const origem = filtroOrigem.value;
             const destino = filtroDestino.value;
             
-            // Construir URL com filtros
             let url = '/voos?';
             if (origem) url += `origem=${origem}&`;
             if (destino) url += `destino=${destino}&`;
             
-            // Redirecionar para URL com filtros
-            window.location.href = url.slice(0, -1); // Remover último & ou ?
+            window.location.href = url.slice(0, -1);
         }
         
-        // Gráfico de movimento
         const movimentoCtx = document.getElementById('movimentoChart').getContext('2d');
         new Chart(movimentoCtx, {
             type: 'line',
