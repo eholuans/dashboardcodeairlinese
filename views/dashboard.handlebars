@@ -1,7 +1,6 @@
 <div class="dashboard-page">
     <h1 class="page-title">Dashboard</h1>
     
-    <!-- Estatísticas principais -->
     <div class="stats-row">
         <div class="stats-card">
             <h2>Movimentação de passageiros</h2>
@@ -56,7 +55,7 @@
         </div>
     </div>
     
-    <!-- Segunda linha de estatísticas -->
+
     <div class="stats-row">
         <div class="stats-card">
             <h2>Transporte de bagagemns</h2>
@@ -144,7 +143,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Gráfico de movimentação de passageiros
         const passageirosCtx = document.getElementById('passageirosChart').getContext('2d');
         new Chart(passageirosCtx, {
             type: 'bar',
@@ -188,7 +186,6 @@
             }
         });
         
-        // Gráfico de horários de voos
         const horariosCtx = document.getElementById('horariosChart').getContext('2d');
         new Chart(horariosCtx, {
             type: 'doughnut',
@@ -219,7 +216,6 @@
             }
         });
         
-        // Gráfico de bagagens
         const bagagensCtx = document.getElementById('bagagensChart').getContext('2d');
         new Chart(bagagensCtx, {
             type: 'doughnut',
@@ -250,7 +246,6 @@
             }
         });
         
-        // Gráfico de bagagem extraviada
         const extraviadaCtx = document.getElementById('extraviadaChart').getContext('2d');
         new Chart(extraviadaCtx, {
             type: 'line',
