@@ -2,10 +2,8 @@ const express = require("express");
 const router = express.Router();
 const Voo = require("../models/Voo");
 
-// Rota para listar todos os voos (Gestão de Voos)
 router.get("/", async (req, res) => {
   try {
-    // Obter filtros da query string
     const filtros = {
       origem: req.query.origem,
       destino: req.query.destino,
@@ -14,7 +12,6 @@ router.get("/", async (req, res) => {
       data: req.query.data
     };
     
-    // Buscar voos com filtros
     const voos = await Voo.findAll(filtros);
     
     res.render("voos/index", {
@@ -32,7 +29,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Rota para exibir formulário de novo voo
 router.get("/novo", async (req, res) => {
   try {
     res.render("voos/form", {
@@ -50,7 +46,6 @@ router.get("/novo", async (req, res) => {
   }
 });
 
-// Rota para criar novo voo
 router.post("/", async (req, res) => {
   try {
     const voo = {
@@ -75,7 +70,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Rota para exibir formulário de edição
 router.get("/:id/editar", async (req, res) => {
   try {
     const voo = await Voo.findById(req.params.id);
@@ -100,7 +94,6 @@ router.get("/:id/editar", async (req, res) => {
   }
 });
 
-// Rota para atualizar voo
 router.post("/:id", async (req, res) => {
   try {
     const voo = {
@@ -125,7 +118,6 @@ router.post("/:id", async (req, res) => {
   }
 });
 
-// Rota para excluir voo
 router.post("/:id/excluir", async (req, res) => {
   try {
     await Voo.delete(req.params.id);
