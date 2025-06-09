@@ -1,7 +1,6 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config({ path: './config/.env' });
 
-// Configuração da conexão com o banco de dados
 const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
@@ -12,7 +11,6 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Função para testar a conexão
 const testConnection = async () => {
   try {
     const connection = await pool.getConnection();
