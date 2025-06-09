@@ -105,7 +105,6 @@
     </div>
 </div>
 
-<!-- Modal de confirmação de exclusão -->
 <div id="modal-exclusao" class="modal">
     <div class="modal-content">
         <h2>Confirmar Exclusão</h2>
@@ -125,18 +124,14 @@
         const formExcluir = document.getElementById("form-excluir");
         const btnCancelar = document.getElementById("btn-cancelar");
         
-        // Configurar o formulário de exclusão
         formExcluir.action = `/voos/${idVoo}/excluir`;
         
-        // Exibir o modal
         modal.style.display = "flex";
         
-        // Configurar o botão de cancelar
         btnCancelar.onclick = function() {
             modal.style.display = "none";
         };
         
-        // Fechar o modal se clicar fora dele
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
