@@ -51,7 +51,6 @@ class Voo {
       
       const params = [];
       
-      // Aplicar filtros se fornecidos
       if (filtros.origem) {
         query += ' AND o.código_IATA = ?';
         params.push(filtros.origem);
@@ -77,10 +76,8 @@ class Voo {
         params.push(filtros.data);
       }
       
-      // Ordenação
       query += ' ORDER BY v.data_hora_partida ASC';
       
-      // Limite e offset para paginação
       if (filtros.limit) {
         query += ' LIMIT ?';
         params.push(parseInt(filtros.limit));
@@ -180,18 +177,12 @@ class Voo {
       connection = await pool.getConnection();
       await connection.beginTransaction();
 
-      // Excluir registros dependentes em bagagem
       await connection.execute('DELETE FROM bagagem WHERE idVoo = ?', [id]);
-      // Excluir registros dependentes em bilhete
       await connection.execute('DELETE FROM bilhete WHERE idVoo = ?', [id]);
-      // Excluir registros dependentes em checkinembarque
       await connection.execute('DELETE FROM checkinembarque WHERE idVoo = ?', [id]);
-      // Excluir registros dependentes em escala_tripulacao
       await connection.execute('DELETE FROM escala_tripulacao WHERE idVoo = ?', [id]);
-      // Excluir registros dependentes em historicoatrasos
       await connection.execute('DELETE FROM historicoatrasos WHERE idVoo = ?', [id]);
 
-      // Agora, excluir o voo
       const [result] = await connection.execute('DELETE FROM voo WHERE idVoo = ?', [id]);
       await connection.commit();
       return result.affectedRows > 0;
@@ -214,17 +205,14 @@ class Voo {
    */
   static async getEstatisticas() {
     try {
-      // Total de voos
       const [totalRows] = await pool.execute('SELECT COUNT(*) as total FROM voo');
       
-      // Voos por status
       const [statusRows] = await pool.execute(`
         SELECT status, COUNT(*) as total 
         FROM voo 
         GROUP BY status
       `);
       
-      // Voos por companhia
       const [companhiaRows] = await pool.execute(`
         SELECT c.nome, COUNT(*) as total 
         FROM voo v
@@ -233,7 +221,6 @@ class Voo {
         GROUP BY c.idCompanhia
       `);
       
-      // Voos por período do dia (manhã, tarde, noite)
       const [periodoRows] = await pool.execute(`
         SELECT 
           CASE 
